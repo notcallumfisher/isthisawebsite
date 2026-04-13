@@ -37,10 +37,10 @@ io.on('connection', socket => {
 	const client = { socket, ipa };
 	clients.push(client);
 	console.log(`Connected: ${ipa} | Total: ${clients.length}`);
-	updateCounter();
+	update();
 	socket.on('disconnect', () => {
 		clients = clients.filter(c => c !== client);
-		updateCounter();
+		update();
 		console.log(`Disconnected: ${ipa} | Total: ${clients.length}`);
 	});
 });
