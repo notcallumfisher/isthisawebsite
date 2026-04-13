@@ -11,7 +11,7 @@ const io = new Server(server, {
 	}
 });
 const maxClientsPerIPA = 1;
-const target = 100;    
+const target = 100;
 let clients = [];
 
 app.get('/', (req, res) => {
@@ -34,7 +34,7 @@ io.on('connection', socket => {
 		return;
 	}
 	// Add client
-	const client = { socket, ipa };
+	let client = { socket, ipa };
 	clients.push(client);
 	console.log(`Connected: ${ipa} | Total: ${clients.length}`);
 	update();
