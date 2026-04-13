@@ -5,8 +5,11 @@ import { createServer } from 'node:http';
 const port = process.env.PORT || 8080;
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
-
+const io = new Server(server, {
+	cors: {
+		origin: '*'
+	}
+});
 const maxClientsPerIPA = 1;
 const target = 100;    
 let clients = [];
