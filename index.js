@@ -10,7 +10,7 @@ const io = new Server(server, {
 		origin: '*'
 	}
 });
-const maxClientsPerIPA = 999999999999999999999;
+const maxClientsPerIPA = 1;
 const target = 100;
 let clients = [];
 
