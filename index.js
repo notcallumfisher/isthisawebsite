@@ -30,7 +30,7 @@ let successTimer;
 
 const update = () => {
 	let count = clients.length;
-	if (count === 1) climbingTarget = 2;
+	if (count === 0) climbingTarget = 2;
 	let target = getTarget();
 	if (count === target && target !== 0 && target !== 666) {
 		if (!successTimer) {
