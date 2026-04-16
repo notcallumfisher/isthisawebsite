@@ -34,7 +34,7 @@ const update = () => {
 	if (count === target && target !== 0 && target !== 666) {
 		if (!successTimer) {
 			let level = Math.log2(target);
-			let delay = (5 + (level - 1)) * 1000;
+			let delay = (3 + (level - 1)) * 1000;
 			successTimer = setTimeout(() => {
 				climbingTarget = target * 2; 
 				successTimer = null;
