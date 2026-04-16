@@ -29,15 +29,14 @@ app.get('/', (req, res) => {
 let successTimer;
 
 const update = () => {
-	let target = getTarget();
 	let count = clients.length;
 	if (count === 1) climbingTarget = 2;
+	let target = getTarget();
 	if (count === target && target !== 0 && target !== 666) {
 		if (!successTimer) {
-			let level = Math.log2(target);
-			let delay = (3 + (level - 1)) * 1000;
+			let delay = (1 + (target * 0.1)) * 1000;
 			successTimer = setTimeout(() => {
-				climbingTarget = target * 2; 
+				climbingTarget = target + 1;
 				successTimer = null;
 				update();
 			}, delay);
