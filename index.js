@@ -11,37 +11,60 @@ const io = new Server(server, {
 	}
 });
 const maxClientsPerIPA = 1;
-const target = 100;
+let climbingTarget = 2;
+const getTarget = () => {
+	let now = new Date();
+	let month = now.getMonth();
+	let day = now.getDate();
+	if (month === 3 && day === 1) return 0;
+	if (month === 9) return 666;
+	return climbingTarget;
+};
 let clients = [];
 
 app.get('/', (req, res) => {
-	res.status(200);
+	res.send('isthisawebsite.com');
 });
 
+let successTimer;
+
 const update = () => {
-	io.emit('u', {
-		c: clients.length,
-		t: target
-	});
-};
+	let target = getTarget();
+	let count = clients.length;
+	if (count === target && target !== 0 && target !== 666) {
+		if (!successTimer) {
+			let level = Math.log2(target);
+			let delay = (5 + (level - 1)) * 1000;
+			successTimer = setTimeout(() => {
+				climbingTarget = target * 2; 
+				successTimer = null;
+				update();
+			}, delay);
+		}
+	} else {
+		if (successTimer) {
+			clearTimeout(successTimer);
+			successTimer = null;
+		}
+	}
+	io.emit('u', { c: count, t: target });
+}
 
 io.on('connection', socket => {
 	let ipa = socket.handshake.headers['x-forwarded-for']?.split(',')[0].trim() || socket.handshake.address;
-	// Check limit:
 	let existing = clients.filter(c => c.ipa === ipa).length;
 	if (existing >= maxClientsPerIPA) {
 		socket.disconnect();
 		return;
 	}
-	// Add client
 	let client = { socket, ipa };
 	clients.push(client);
 	console.log(`Connected: ${ipa} | Total: ${clients.length}`);
 	update();
 	socket.on('disconnect', () => {
 		clients = clients.filter(c => c !== client);
-		update();
 		console.log(`Disconnected: ${ipa} | Total: ${clients.length}`);
+		update();
 	});
 });
 
