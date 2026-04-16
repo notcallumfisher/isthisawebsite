@@ -31,6 +31,7 @@ let successTimer;
 const update = () => {
 	let target = getTarget();
 	let count = clients.length;
+	if (count === 1) climbingTarget = 2;
 	if (count === target && target !== 0 && target !== 666) {
 		if (!successTimer) {
 			let level = Math.log2(target);
