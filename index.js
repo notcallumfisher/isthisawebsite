@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
 let successTimer;
 
 const update = () => {
+	console.log(`${clients.length} / ${climbingTarget}`);
 	let count = clients.length;
 	if (count === 0) climbingTarget = 2;
 	let target = getTarget();
@@ -59,11 +60,9 @@ io.on('connection', socket => {
 	}
 	let client = { socket, ipa };
 	clients.push(client);
-	console.log(`Connected: ${ipa} | Total: ${clients.length}`);
 	update();
 	socket.on('disconnect', () => {
 		clients = clients.filter(c => c !== client);
-		console.log(`Disconnected: ${ipa} | Total: ${clients.length}`);
 		update();
 	});
 });
