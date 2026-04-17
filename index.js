@@ -53,6 +53,7 @@ const update = () => {
 
 io.on('connection', socket => {
 	let ipa = socket.handshake.headers['x-forwarded-for']?.split(',')[0].trim() || socket.handshake.address;
+	console.log(ipa);
 	let existing = clients.filter(c => c.ipa === ipa).length;
 	if (existing >= maxClientsPerIPA) {
 		socket.disconnect();
