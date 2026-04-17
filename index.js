@@ -36,7 +36,7 @@ const update = () => {
 		if (!successTimer) {
 			let delay = (1 + (target * 0.1)) * 1000;
 			successTimer = setTimeout(() => {
-				climbingTarget = target + 1;
+				if (target !== 100) climbingTarget = target + 1;
 				successTimer = null;
 				update();
 			}, delay);
